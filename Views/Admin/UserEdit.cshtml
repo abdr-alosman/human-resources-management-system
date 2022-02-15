@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "UserEdit";
+}
+
+
+@model UserDetailsModel
+
+
+<div class=" bg-white p-2 rounded shadow">
+    <h2>User Düzenle : </h2>
+    <div class="col-md-12">
+
+        <form asp-action="UserEdit" asp-controller="Admin" method="post">
+            <input type="hidden" name="UserId" value="@Model.UserId" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="col">
+                    <label asp-for="Name">Kullanıcı Adı</label>
+                    <input type="text" class="form-control" asp-for="Name" placeholder="Ad">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="Surname">Kullanıcı Soyadı</label>
+                    <input type="text" class="form-control" asp-for="Surname" placeholder="Soyad">
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col">
+                    <label asp-for="Email">Kullanıcı Email</label>
+                    <input type="email" class="form-control" asp-for="Email" placeholder="Email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col">
+                    <label asp-for="UserName">Kullanıcı Username</label>
+                    <input type="text" class="form-control" asp-for="UserName" placeholder="UserName">
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="custom-control custome-checkbox">
+                    <input asp-for="EmailConfirmed" type="checkbox" class="custome-contol-input" />
+                    <label asp-for="EmailConfirmed"  class="custom-control-label" ></label>
+                </div>
+            </div>
+            <hr />
+
+            <div class="form-group row mb-2">
+                @foreach (var rolename in ViewBag.Roles)
+                {
+                    <div class="custom-control custome-checkbox">
+                        <input type="checkbox" class="custome-contol-input" name="SelectedRoles" value="@rolename" id="@rolename"
+                           @(Model.SelectedRoles.Any(i=>i==rolename)?"checked":"") />
+                        <label class="custom-control-label" for="@rolename">@rolename</label>
+
+                    </div>
+                }
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Güncellemeleri Kaydet</button>
+        </form>
+
+    </div>
+
+</div>

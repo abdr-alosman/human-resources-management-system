@@ -1,0 +1,225 @@
+﻿
+@{
+    ViewData["Title"] = "AdayOnaylama";
+}
+
+
+@model AdayInterviewModelView
+
+
+
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/css/SiteCustomer.css">
+
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a href="#" class="flex-sm-fill text-sm-center nav-link active " aria-current="page">Aday Onaylama Listesi</a>
+    </nav>
+
+
+    <br />
+    @if (TempData["message"] != null)
+    {
+        <partial name="_ResultMessage" model="@(TempData.Get<AlertMessage>("message"))" />
+
+    }
+
+    <div class="table-responsive">
+        <table id="dtBasicExample" class="table table-striped table-bordered ">
+            <thead>
+                <tr>
+                    <th class="th-sm">
+                        Aday Adı-Soyadı
+                    </th>
+                    <th class="th-sm">
+                        Aday Durumu
+                    </th>
+
+                    <th class="th-sm">
+                        Pozisyon
+                    </th>
+                    <th class="th-sm">
+                        Cv
+                    </th>
+                    <th class="th-sm">Durumu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AdayOnaylamaListVM.Where(x => x.UserId == ViewBag.UserId))
+                {
+                    @foreach (var aday in Model.AdayListVM.Where(x => x.Id == item.AdayId))
+                    {
+                        <tr>
+                            <td>@aday.NameSurname</td>
+                            <td>
+                                @{
+                                    switch (aday.Status)
+                                    {
+                                        case "0":
+                                            <span class="text-danger"> Olumsuz </span>
+                                            break;
+                                        case "1":
+                                            <span class="text-primary"> Mülakat Yapılcak </span>
+                                            break;
+                                        case "2":
+                                            <span class="text-primary"> Mülakat yapıldı </span>
+                                            break;
+                                        case "3":
+                                            <span class="text-success"> Olumlu </span>
+                                            break;
+                                        case "4":
+                                            <span class="text-warning"> Onay Bekliyor </span>
+                                            break;
+                                        case "5":
+                                            <span class="text-warning"> Değerlendirmede </span>
+                                            break;
+                                        case "6":
+                                            <span class="text-danger"> Onaylanmadı </span>
+                                            break;
+                                        case "7":
+                                            <span class="text-success"> Teklif Gönderildi </span>
+                                            break;
+                                        case "9":
+                                            <span class="text-success"> Teklif Kabul Edildi </span>
+                                            break;
+                                        case "10":
+                                            <span class="text-danger"> Teklif Red Edildi </span>
+                                            break;
+                                        case "8":
+                                            <span class="text-success"> Evrak Listesi Gönderildi </span>
+                                            break;
+                                        case "11":
+                                            <span class="text-success"> Onaylandı </span>
+                                            break;
+                                        default:
+                                            // code block
+                                            break;
+                                    }
+                                }
+                            </td>
+                            <td>@aday.Pozisyon.Name</td>
+                            <td> <a href="@aday.CV"><i class="fas fa-file-pdf fa-3x"></i></a> </td>
+
+                            <td align="center">
+                                @{
+                                    if (@item.Onay == "2")
+                                    {
+                                        <a class="btn btn-success mb-1" data-bs-toggle="modal" data-bs-target="#poz_@item.Id">
+
+                                            <span>Onaylıyorum</span>
+                                        </a>
+
+                                        <a class="btn btn-danger mb-1" data-bs-toggle="modal" data-bs-target="#neg_@item.Id">
+
+                                            <span>Onaylamıyorum</span>
+                                        </a>
+                                    }
+                                    else if (@item.Onay == "1")
+                                    {
+                                        <span class="text-success">Onaylandı</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Onaylanmadı</span>
+                                    }
+                                }
+                            </td>
+
+                        </tr>
+                        <!--Olumlsuz Modal -->
+                        <div class="modal fade" id="neg_@item.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <form asp-action="AdayOnaylama" asp-controller="AdayGenel" method="post">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-warning">
+                                            <h5 class="modal-title text-white" id="exampleModalLabel">Uyarı !</h5>
+
+                                            <a class="fa fa-times" onclick="hidModal()" data-bs-dismiss="modal" aria-label="Close"></a>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="AdayId" value="@aday.Id" />
+                                            <input type="hidden" name="onay" value="0">
+                                            <input type="hidden" name="userId" value="@ViewBag.UserId" />
+
+                                            <label class="form-label"> Adayı onaylamama nedeni belirtiniz lütfen : </label>
+                                            <textarea required name="aciklama" class="form-control" rows="3"></textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                            <button type="submit" class="btn btn-success">Gönder</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- Olumlsuz Modal -->
+                        <!--Olumlu Modal -->
+                        <div class="modal fade" id="poz_@item.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <form asp-action="AdayOnaylama" asp-controller="AdayGenel" method="post">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-success">
+                                            <h5 class="modal-title text-white" id="exampleModalLabel">Teyit </h5>
+
+                                            <a class="fa fa-times" onclick="hidModal()" data-bs-dismiss="modal" aria-label="Close"></a>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="AdayId" value="@aday.Id" />
+                                            <input type="hidden" name="onay" value="1">
+                                            <input type="hidden" name="userId" value="@ViewBag.UserId" />
+
+                                            <label class="form-label"> Açıklama : (Zorunlu değil) </label>
+                                            <textarea name="aciklama" class="form-control" rows="3"></textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                            <button type="submit" class="btn btn-success">Gönder</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <!-- Olumlu Modal -->
+                    }
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="th-sm">
+                        Aday Adı-Soyadı
+                    </th>
+                    <th class="th-sm">
+                        Aday Durumu
+                    </th>
+
+                    <th class="th-sm">
+                        Pozisyon
+                    </th>
+                    <th class="th-sm">
+                        Cv
+                    </th>
+                    <th class="th-sm">Durumu</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+<!-- Button trigger modal -->
+<!-- MDBootstrap Datatables  -->
+@section Scripts
+{
+<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/js/customerDatatable.js"></script>
+}
+
+
+

@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewData["Title"] = "TeklifFormu";
+}
+
+@model AdayInterviewModelView
+
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link  " aria-current="page" asp-controller="Adaylar" asp-action="Index">Tüm Adaylar Listesi</a>
+        <a class="flex-sm-fill text-sm-center nav-link  " asp-action="OlumluAdaylar" asp-controller="Adaylar"><i class="fas fa-list"></i> &nbsp; Olumlu Adaylar Listesi</a>
+        <a asp-action="Create" asp-controller="Adaylar" class="flex-sm-fill text-sm-center nav-link "><b><i class="fa fa-plus"></i></b>  &nbsp; Yeni Aday Ekle </a>
+        <a href="#" class="flex-sm-fill text-sm-center nav-link active "><b><i class="fa fa-plus"></i></b>  &nbsp; Teklif Formu </a>
+    </nav>
+    <br />
+    <div class="px-3">
+         <form action="/Adaylar/TeklifFormuPost" method="post" class="form-group" enctype="multipart/form-data">
+
+        <input type="hidden" name="AdayId" value="@Model.Aday.Id" />
+
+        <p><b>Teklif Formu Gönderme :</b>  </p>
+        <hr />
+        @{
+            var aday1 = Model.AdayListVM.SingleOrDefault(x => x.Id == Model.Aday.Id);
+        }
+        <div class="row">
+            <div class="col-4">
+                <p>Aday Adı Soyadı : <b> @aday1.NameSurname</b></p>
+            </div>
+            <div class="col-4">
+                <p>Aday Email : <b> @aday1.Email</b></p>
+            </div>
+            <div class="col-4">
+                <p>Aday Telefon : <b> @aday1.Tel</b></p>
+            </div>
+        </div>
+        <hr />
+
+
+        <div class="row">
+           @* <div class="mb-1 col-md-6">
+                <label class="form-label" for="vertical-username"> Konu :</label>
+                <input type="text" name="Subject" asp-for="TeklifFormu.Subject" class="form-control" placeholder="Email Subject" required />
+            </div>*@
+            <div class="mb-1 col-md-6">
+                <label class="form-label">Geçerlilik Tarihi : </label>
+                <input class="form-control" asp-for="TeklifFormu.TeklifDate" name="TeklifDate" type="datetime-local" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-1 col-12">
+                <label class="form-label"> Ilave Not</label>
+                <textarea name="IlaveNot" asp-for="TeklifFormu.IlaveNot" class="form-control" rows="4"></textarea>
+            </div>
+            <div class="mb-1 col-12">
+                <label class="form-label">Teklif Formu </label>
+
+                <input type="file" name="TeklifFile" asp-for="TeklifFormu.TeklifFile" multiple class="form-control" required />
+            </div>
+        </div>
+
+
+        <div align="center">
+            <button type="submit" class="btn btn-success">Gönder</button>
+
+        </div>
+
+    </form>
+    </div>
+   
+</div>
+
+
+
+

@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewData["Title"] = "Detaylar";
+}
+
+
+@model OzlukUserVM
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link  " aria-current="page"  asp-action="Index" asp-controller="Ozluk"> Çalışanlar Listesi</a>
+        <a class="flex-sm-fill text-sm-center nav-link " aria-current="page" asp-action="Create" asp-controller="Ozluk"><b><i class="fa fa-plus"></i></b> &nbsp; Yeni Özlük Ekle</a>
+        <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#"><b><i class="fas fa-info-circle"></i></b> &nbsp;  Özlük Detayları </a>
+
+    </nav>
+
+    <br />
+    <div class="mx-lg-5">
+        @foreach (var item in Model.OzlukListVM.Where(x => x.UserId == Model.Ozluk.UserId))
+        {
+            <div class="row">
+                @foreach (var user in Model.UserListVM.Where(x => x.Id == item.UserId))
+                {
+                    <div class="col-12 col-lg-6 mb-1">
+                        <b> Ad-Soyad :  </b> @user.NameSurname
+                    </div>
+                    <div class="col-12 col-lg-6 mb-1">
+                        <b>Email : </b> @user.Email
+                    </div>
+                    <div class="col-12 col-lg-6 mb-1">
+                        <b>Telefon Numarası : </b> @user.PhoneNumber
+                    </div>
+                    <div class="col-12 col-lg-6 mb-1">
+                        <b>Pozisyon Adı  : </b> @user.Pozisyon.Name
+                    </div>
+
+                }
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> TC. Numarası : &nbsp;  </b> @item.Tcno
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> Kan Grubu : &nbsp;  </b> @item.KanGrubu
+                </div>
+                 <div class="col-12 col-lg-6 mb-1">
+                    <b> Maaş Hesap Iban Numarası : &nbsp;  </b> @item.MaasHesapIbanNo
+                </div>
+
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> Nüfüs Kayıt Örneği : 	&nbsp;  </b> <a href="@item.NufusKayitOrnegi" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> Öğrenim Belgesi: 	&nbsp;  </b> <a href="@item.ogrenimBlegesi" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> Adli Sicil Kaydı : 	&nbsp;  </b> <a href="@item.AdliSicil" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> Yerleşim Yeri Belgesi : 	&nbsp;  </b> <a href="@item.YerlisimYeri" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> Sağlık Raporu : 	&nbsp;  </b> <a href="@item.saglikRaporu" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> Nüfüs Cüzdan Fotok. : 	&nbsp;  </b> <a href="@item.NufusCuzdanFotok" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b>Kurs/Seminar Belgesi (Varsa) : 	&nbsp;  </b> <a href="@item.kursBelgeleri" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> Fotoğraf : 	&nbsp;  </b> <a href="@item.Fotograf" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> Askerlik Tarhis Belgesi : 	&nbsp;  </b> <a href="@item.AskerlikBelgesi" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> İşkur Kayıt Belgesi : 	&nbsp;  </b> <a href="@item.iskurKayit" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> İş Başvuru Formu : 	&nbsp;  </b> <a href="@item.isBasvuruFormu" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+                <div class="col-12 col-lg-6 mb-1">
+                    <b> Muvafakatname : 	&nbsp;  </b> <a href="@item.Muvakatname" target="_blank"><i class="fas fa-file-alt fa-x2"></i>	&nbsp; Görüntüle </a>
+                </div>
+
+            </div>
+        }
+    </div>
+
+
+
+</div>
+
+
+

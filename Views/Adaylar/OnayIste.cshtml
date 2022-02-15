@@ -1,0 +1,227 @@
+﻿
+@{
+    ViewData["Title"] = "OnayIste";
+}
+
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-validation.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-wizard.css">
+<!-- END: Page CSS-->
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/select/select2.min.css">
+<!-- END: Vendor CSS-->
+<!-- Vertical Wizard -->
+<style>
+    .select2-selection__arrow {
+        display: none;
+    }
+</style>
+
+@model AdayInterviewModelView
+
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link  " aria-current="page" asp-controller="Adaylar" asp-action="Index">Tüm Adaylar Listesi</a>
+        <a class="flex-sm-fill text-sm-center nav-link " asp-action="OlumluAdaylar" asp-controller="Adaylar"><i class="fas fa-list"></i> &nbsp; Olumlu Adaylar Listesi</a>
+        <a asp-action="Create" asp-controller="Adaylar" class="flex-sm-fill text-sm-center nav-link "><b><i class="fa fa-plus"></i></b>  &nbsp; Yeni Aday Ekle </a>
+        <a href="#" class="flex-sm-fill text-sm-center nav-link active"><b><i class="fa fa-plus"></i></b>  &nbsp; Onay İsteme </a>
+
+    </nav>
+    <div style="width:100%;  margin:0 auto; max-width: 1000px;">
+        @{
+            var aday = @Model.AdayListVM.SingleOrDefault(x => x.Id == Model.Aday.Id);
+        }
+        <hr />
+        <div class="row">
+            <div class="col-6">
+                <p><b>Aday Adı : </b> @aday.NameSurname</p>
+            </div>
+            <div class="col-6">
+                <p><b>Pozisyon : </b>@Model.PozisyonListVM.SingleOrDefault(x=>x.Id==aday.PozisyonId).Name</p>
+            </div>
+
+        </div>
+        <hr />
+        <h4 class="my-2"><b> Onayını almak istediğiniz Kişileri Seçiniz  :</b></h4>
+        <form method="post" id="repeater_form" >
+           
+            <input type="hidden" name="AdayId" value="@aday.Id" />
+
+            <div class="row mb-3">
+                <div id="repeater2">
+                    <div class="repeater-heading mt-2">
+
+                        <div align="right"> <button id="employeeEkle" type="button" class="btn btn-primary repeater-add-btn">Kişi Ekle</button></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="items" data-group="programming_languages">
+                        <div class="item-content">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-9" id="katilan">
+                                        <label>Kişi Seçiniz : </label>
+                                        <select data-skip-name="true" data-name="katilanlar" class="select2 form-select" value="@Model.User.Id" asp-items="@(new SelectList(Model.UserList.Where(x=>x.Status==true),"Id","NameSurname"))">
+                                        </select>
+
+                                    </div>
+
+                                    <div class="col-md-3" style="margin-top:24px;" align="center">
+                                        <button id="remove-btn" onclick="$(this).parents('.items').remove()" class="btn btn-danger">Sil &nbsp; <i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="msg" class="alert alert-success alert-dismissible fade show p-2" role="alert" style="display:none;">
+
+                <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div id="msg2" class="alert alert-danger alert-dismissible fade show p-2" role="alert" style="display:none;">
+
+                <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div align="center">
+                <button type="submit" class="btn btn-outline-secondary btn-success"> kaydet & Mail Gönder &nbsp; <i class="fas fa-save fa-lg"></i></button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<div id="modal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title text-white">Uyarı !</h5>
+                <a class="fa fa-times" onclick="hidModal()" data-bs-dismiss="modal" aria-label="Close"></a>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <button  type="button" onclick="hidModal()" class="btn btn-danger" data-bs-dismiss="modal">Kapat</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Spinnerloading">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<!-- /Vertical Wizard -->
+@section Scripts{
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<!-- END: Page Vendor JS-->
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+
+}
+
+<script>
+
+        $(document).ready(function(){
+        $('#repeater2').createRepeater();
+      
+       // Start Submit Form
+       $('#repeater_form').on('submit', function(event){
+        event.preventDefault();
+
+       var onaylayanlarList=[];
+       var AdayId;
+
+       jQuery.each( $(this).serializeArray(), function( i, field ) {
+
+        if(field.name=="katilanlar"){
+            onaylayanlarList.push(field.value);
+        }
+        if(field.name=="AdayId"){
+            AdayId=field.value;
+        }
+
+       });
+        // end jQuery.each -----------
+
+        // çalışan tekrarı
+                  var tekrar=false;
+                  for (var j = 0; j < onaylayanlarList.length; j++){
+                         for (var i = j+1; i < onaylayanlarList.length; i++){
+                           if(onaylayanlarList[j]==onaylayanlarList[i]){
+                                tekrar=true;
+                                break;
+                            }
+                        }
+                  }
+       // çalışan tekrarı
+       var x = document.getElementById("modal");
+        if(tekrar==true){
+            
+            x.style.display = "block";
+            $(".modal-body>p").append(" aynı Çalışanı Birden Fazla ekleyemezsiniz !");
+       }else{
+           $('#Spinnerloading').css('display', 'block');
+           var myData= [ {"katilanlar":onaylayanlarList,"AdayId":AdayId}];
+    
+
+             $.ajax({
+
+                 url:"/Adaylar/OnayaGonder",
+                 method:"POST",
+                 data:JSON.stringify(myData) ,
+                 contentType: 'application/json;',
+                 dataType: 'json',
+                 success:function(data)
+                 {
+                     
+                     if(data=="hata"){
+                          $('#Spinnerloading').css('display', 'none');
+                          $("#msg2").empty();
+                          $("#msg2").css("display","block");
+                          $("#msg2").append(" Onay Gönderilemedi ! En Az Bir Kişi Eklemeniz Lazım ! ");
+                     }
+                     else if(data=="var"){
+                         $('#Spinnerloading').css('display', 'none');
+                         $("#msg2").empty();
+                         $("#msg2").css("display","block");
+                         $("#msg2").append(" Onay Gönderilemedi ! Seçilen kişi/kişilere önceden onay talebi gönderilmiştir ! ");
+                     }
+                     else{
+                         $('#Spinnerloading').css('display', 'none');
+                          $("#msg2").css("display","none");
+                          $("#msg").empty();
+                          $("#msg").css("display","block");
+                          $("#msg").append(" Onay Talebiniz Başarı ile gönderilmiştir ")
+
+                         $('#repeater_form')[0].reset();
+                         $('#repeater').createRepeater();
+                         $('#repeater2').createRepeater();
+
+                         setTimeout(function() {window.location.href = "/Adaylar/OlumluAdaylar";}, 1000);
+                     }
+                 }
+                
+             });
+     //end Ajax -----------------
+       }
+
+       });
+        });
+        //--------------- End  document (ready)
+</script>
+
+
+

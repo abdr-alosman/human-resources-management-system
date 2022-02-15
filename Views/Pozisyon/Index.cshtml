@@ -1,0 +1,231 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@model PozisyonViewModel
+
+
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+
+<div class="bg-white p-2 rounded shadow ">
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link active " aria-current="page" asp-controller="Pozisyon" asp-action="Index">Tüm Pozisyonlar Listesi</a>
+        <a asp-action="Create" asp-controller="Pozisyon" class="flex-sm-fill text-sm-center nav-link "><b><i class="fa fa-plus"></i></b>  &nbsp; Yeni Pozsiyon Ekle </a>
+
+
+    </nav>
+    @if ((string)TempData["sil"] == "silindi")
+    {
+        <div class="alert alert-success alert-dismissible fade show p-2" role="alert">
+            <strong>Pozisyon Başarı ile silinmiştir.</strong>
+            <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if ((string)TempData["silinmedi"] == "silinmedi")
+    {
+        <div class="alert alert-danger alert-dismissible fade show p-2" role="alert">
+            <strong>Silmek istediğinz Pozisyon'da çalışanlar var lütfen Silmek için mevcut çalışanları uygun pozisyonlara taşıyınız .</strong>
+            <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+
+
+    <br />
+    <div class="table-responsive">
+        <table id="dtBasicExample" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Pozisyon Adı </th>
+                    <th>Pozisyon Sayısı </th>
+                    <th> Bağlı Olduğu Departman</th>
+                    <th>Bağlı olduğu Yönetici</th>
+                    <th>Durum</th>
+                    <th>Detaylar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PozisyonListVM.Where(x => x.Status == true))
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.pozSayisi </td>
+                        <td>
+                            @foreach (var itemDep in Model.DepartmentList.Where(x => item.DepartmentId == x.Id))
+                            {
+                                @itemDep.Name
+                            }
+                        </td>
+                        <td>
+                            @foreach (var manager in Model.UserList.Where(x => x.Id == item.ManagerId))
+                            {
+                                @manager.NameSurname
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var EmployeeCount = Model.UserList.Where(x => x.PozisyonId == item.Id).Count();
+                                var eksik = item.pozSayisi - EmployeeCount;
+                                if (item.pozSayisi > EmployeeCount)
+                                {
+                                    <span class="text-danger"> @eksik &nbsp; Boş</span>
+                                }
+                                else
+                                {
+                                    <span class="text-success"> Tam </span>
+                                }
+                            }
+
+                        </td>
+
+                        <td>
+                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detaylar_@item.Id"><i class="fas fa-plus"></i></a>
+                            <!--kvkk onay Modal -->
+                        <div class="modal fade" id="detaylar_@item.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-dark">
+                                            <h5 class="modal-title text-white" id="exampleModalLabel"> Pozisyon Bilgileri</h5>
+
+                                            <a class="fa fa-times" onclick="hidModal()" data-bs-dismiss="modal" aria-label="Close"></a>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="table-responsive p-2">
+                                                <table class="table table-striped table-bordered ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Pozisyon Adı </th>
+
+                                                            <th> Bağlı Olduğu Departman</th>
+                                                            <th> Seviye</th>
+
+                                                            <th>Nitelikler</th>
+                                                            <th>Nitelik Ağırlığ</th>
+
+                                                            <th>Bağlı olduğu Yönetici</th>
+                                                            <th>Çalışan/lar Adı</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>@item.Name</td>
+
+                                                            <td>
+                                                                @foreach (var itemDep in Model.DepartmentList.Where(x => item.DepartmentId == x.Id))
+                                                                {
+                                                                    @itemDep.Name
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                @{
+                                                                    switch (@item.Seviye)
+                                                                    {
+                                                                        case "0":
+                                                                            <span>Üst Düzey</span>
+                                                                            break;
+                                                                        case "1":
+                                                                            <span>Şef</span>
+                                                                            break;
+                                                                        case "2":
+                                                                            <span>Orta Seviye</span>
+                                                                            break;
+                                                                        case "3":
+                                                                            <span>Uzman</span>
+                                                                            break;
+                                                                        default:
+                                                                            <span>Asistan</span>
+                                                                            break;
+                                                                    };
+                                                                }
+                                                            </td>
+
+                                                            <td>
+                                                                @foreach (var nitelik in Model.NitelikListVM.Where(x => x.PozisyonId == item.Id))
+                                                                {
+                                                                    @nitelik.Name
+                                                                    <hr />
+                                                                }
+
+                                                            </td>
+                                                            <td>
+                                                                @foreach (var scorr in Model.NitelikListVM.Where(x => x.PozisyonId == item.Id))
+                                                                {
+                                                                    @scorr.Score
+                                                                    <hr />
+
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                @foreach (var manager in Model.UserList.Where(x => x.Id == item.ManagerId))
+                                                                {
+                                                                    @manager.NameSurname
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                @foreach (var employee in Model.UserList.Where(x => x.PozisyonId == item.Id))
+                                                                {
+                                                                    @employee.NameSurname
+                                                                    <hr />
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <p class="mt-2"> <b>Görev Tanımı : </b>@item.GorevTanimi</p>
+                                                <div class=" mt-2">
+                                                    <a href="/Pozisyon/Edit/@item.Id" class="btn btn-success">Güncelle</a>
+                                                    <a href="/Pozisyon/Delete/@item.Id" class="btn btn-danger">Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--kvkk onay Modal -->
+
+                    </td>
+
+                    </tr>
+
+                }
+
+
+
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Pozisyon Adı </th>
+                    <th>Pozisyon Sayısı </th>
+                    <th> Bağlı Olduğu Departman</th>
+                    <th>Bağlı olduğu Yönetici</th>
+                    <th>Durum</th>
+                    <th>Detaylar</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+
+
+<!-- MDBootstrap Datatables  -->
+@section Scripts
+{
+<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/js/customerDatatable.js"></script>
+}
+
+
+
+

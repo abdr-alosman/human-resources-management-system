@@ -1,0 +1,241 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/css/SiteCustomer.css">
+
+
+
+@model AdayInterviewModelView
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link active " aria-current="page" asp-controller="Mulakatlar" asp-action="Index">Tüm Mülakatlar Listesi</a>
+        <a asp-action="Create" asp-controller="Mulakatlar" class="flex-sm-fill text-sm-center nav-link "><b><i class="fa fa-plus"></i></b>  &nbsp; Yeni Mülakat Ekle </a>
+    </nav>
+
+    @if ((string)TempData["sil"] == "silindi")
+    {
+        <div class="alert alert-success alert-dismissible fade show p-2" role="alert">
+            <strong>Mülakat Başarı ile silinmiştir.</strong>
+            <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <br />
+
+    <div class="table-responsive">
+        <table id="dtBasicExample" class="table table-striped table-bordered ">
+            <thead>
+                <tr>
+                    <th class="th-sm">Mülakat Tarihi-Saati</th>
+                    <th class="th-sm">
+                        Aday Adı-Soyadı
+                    </th>
+                    <th class="th-sm">
+                        Pozisyon
+                    </th>
+                    <th class="th-sm">
+                        Katılanlar
+                    </th>
+                    <th class="th-sm">M. Sonucu</th>
+
+                    <th class="th-sm">Durumu</th>
+
+                    <th class="th-sm">İşlem</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.InterviewListVM)
+                {
+                    <tr>
+
+                        <td>
+                            @if (@item.interviewDate > DateTime.Now)
+                            {
+                                <span class="text-warning"> @item.interviewDate</span>
+
+                            }
+                            else if (@item.interviewDate.ToString("yyyy-MM-dd") == DateTime.Now.ToString("yyyy-MM-dd"))
+                            {
+                                <span class="text-success"> @item.interviewDate</span>
+                            }
+                            else
+                            {
+                                <span> @item.interviewDate</span>
+                            }
+
+
+                        </td>
+                        <td>
+                            @foreach (var item2 in Model.AdayListVM.Where(x => x.Id == item.AdayId))
+                            {
+                                @item2.NameSurname
+                            }
+                        </td>
+
+
+
+                        <td>
+
+                            @foreach (var item3 in Model.AdayListVM.Where(x => x.Id == item.AdayId))
+                            {
+                                @item3.Pozisyon.Name
+                                <p></p>
+                            }
+                        </td>
+                        <td>
+                            @foreach (var item4 in Model.InterviewUserListVM.Where(x => x.interviewId == item.Id))
+                            {
+                                @item4.User.NameSurname
+                                <p></p>
+                            }
+                        </td>
+                        <td align="center">
+                            <p>
+                                @{
+                                    var toplam = 0;
+                                    var UserCount = Model.MulakatDegerlendirmeListVM.Where(x => x.mulakId == item.Id && x.Puan != 0).Count();
+                                    int result = 0;
+                                }
+                                @foreach (var Puan in Model.MulakatDegerlendirmeListVM.Where(x => x.mulakId == item.Id))
+                                {
+                                    toplam = toplam + (int)@Puan.Puan;
+                                    if (UserCount == 0)
+                                    {
+
+                                        result = toplam / 1;
+                                    }
+                                    else
+                                    {
+                                        result = toplam / UserCount;
+                                    }
+
+                                }
+
+                                <span>@result</span>
+                            </p>
+                            <a href="/Mulakatlar/MulakatDetaylari/@item.Id" target="_blank"> Detaylar</a>
+                        </td>
+
+                        <td>
+                            @{
+                                if (@item.isDone == true)
+                                {
+                                    <span class="text-success">Gerçekleşti</span>
+                                }
+                                else
+                                {
+                                    <span class="text-warning">Gerçekleşmedi</span>
+
+                                }
+                            }
+
+                        </td>
+                        <td align="center">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-sm dropdown-toggle hide-arrow py-0" data-bs-toggle="dropdown">
+                                    <i data-feather="more-vertical"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    @if (item.isDone == false)
+                                    {
+                                        <a class="dropdown-item" href="/Mulakatlar/Edit/@item.Id">
+                                            <i data-feather="edit-2" class="me-50"></i>
+                                            <span>Düzenle</span>
+                                        </a>
+
+                                        <a class=" dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <i data-feather="trash" class="me-50"></i>
+                                            <span>Sil</span>
+                                        </a>
+                                    }
+                                    @{
+                                        var IsEvaluate = Model.MulakatDegerlendirmeListVM.Where(x => x.mulakId == item.Id && x.userId == ViewBag.UserId).Count();
+                                        var davetVarmi = Model.InterviewUserListVM.Where(x => x.interviewId == item.Id && x.UserId == ViewBag.UserId).Count();
+                                    }
+
+                                    @if (davetVarmi != 0)
+                                    {
+                                        if (IsEvaluate == 0)
+                                        {
+                                            <a class="dropdown-item" href="/Mulakatlar/AdayDegerlendirme/@item.Id">
+
+                                                <span>Değerlendir</span>
+                                            </a>
+
+                                        }
+                                    }
+
+
+                                </div>
+
+
+                                <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-warning">
+                                                <h5 class="modal-title text-white" id="exampleModalLabel">Uyarı !</h5>
+
+                                                <a class="fa fa-times" onclick="hidModal()" data-bs-dismiss="modal" aria-label="Close"></a>
+
+                                            </div>
+                                            <div class="modal-body">
+                                                Mülakatı Silmek Istediğinizden Emin misiniz ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır</button>
+                                                <a href="/Mulakatlar/Delete/@item.Id" class="btn btn-success">Evet</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="th-sm">Mülakat Tarihi-Saati</th>
+                    <th class="th-sm">
+                        Aday Adı-Soyadı
+                    </th>
+
+
+                    <th class="th-sm">
+                        Pozisyon
+                    </th>
+                    <th class="th-sm">
+                        Katılanlar
+                    </th>
+                    <th class="th-sm">M. Sonucu</th>
+
+                    <th class="th-sm">Durumu</th>
+
+                    <th class="th-sm">İşlem</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+<!-- Button trigger modal -->
+<!-- MDBootstrap Datatables  -->
+@section Scripts
+{
+<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/js/customerDatatable.js"></script>
+}
+
+
+
+
+

@@ -1,0 +1,30 @@
+02/09/2022 08:42:15 +03:00Application Starting
+2022-02-09 08:44:55.975 +03:00 [INF] Application Starting
+2022-02-09 08:45:54.219 +03:00 [INF] Application Starting
+2022-02-09 08:46:57.251 +03:00 [INF] Application Starting
+2022-02-09 08:49:31.271 +03:00 [INF] Application Starting
+2022-02-09 08:52:10.032 +03:00 [INF] Application Starting
+[08:52:40.651 [Information]  Application Starting
+[08:56:29.653 [Information]  Application Starting
+[08:56:48.170 [Information]  Application Starting
+[09:00:14.753 [Information]  Application Starting
+[09:01:41.527 [Information]  Application Starting
+[09:03:24.637 [Information]  Application Starting
+[09:07:46.337 [Information]  Application Starting
+[09:09:35.521 [Information]  Application Starting
+[09:10:42.386 [Information]  Application Starting
+[09:12:05.484 [Information]  Application Starting
+[09:13:22.993 [Information]  Application Starting
+[09:14:26.697 [Information]  Application Starting
+[09:18:38.688 [Information]  Application Starting
+[09:21:32.706 [Information]  Application Starting
+[09:23:22.034 [Information]  Application Starting
+[09:27:59.853 [Information]  Application Starting
+[09:29:31.340 [Information]  Application Starting
+[09:31:14.341 [Information]  Application Starting
+[09:33:57.109 [Information]  Application Starting
+[09:35:37.335 [Information]  Application Starting
+[09:36:41.991 [Information]  Application Starting
+[09:43:30.759 [Information]  Application Starting
+[09:43:47.350 [Information]  Application Starting
+[09:47:17.720 [Information]  Application Starting

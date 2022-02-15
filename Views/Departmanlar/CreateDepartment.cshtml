@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "CreateDepartment";
+}
+
+@model DepartmenModel
+
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link  " aria-current="page" asp-controller="Departmanlar" asp-action="DepartmentList">Tüm Departmanlar Listesi</a>
+        <a class="flex-sm-fill text-sm-center nav-link  active" aria-current="page" href="#">Yeni Departman Ekle</a>
+
+    </nav>
+    <br />
+    <form asp-action="CreateDepartment"  method="post">
+         <div asp-validation-summary="All" class="text-danger"></div>
+
+        <input type="hidden" name="Id" asp-for="Id" />
+
+        <div class="form-group row mb-2">
+            <div class="col">
+                <label asp-for="Name">Departman Adı </label>
+                <input type="text" class="form-control" asp-for="Name" placeholder="Departman Adı" required >
+                <span asp-validation-for="Name"  class="text-danger"></span>
+            </div>
+            @{
+                if ( ViewBag.Id != null)
+                {
+                    <div class="col">
+                        <label asp-for="Status">Departman Durumu </label>
+                        <select  asp-for="Status" class="form-select">
+                            <option selected>Seç</option>
+                            <option value="true">Aktif</option>
+                            <option value="false">Pasif</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                }
+            }
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+</div>
+
+
+

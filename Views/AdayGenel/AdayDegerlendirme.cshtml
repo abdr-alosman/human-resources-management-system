@@ -1,0 +1,216 @@
+﻿
+@{
+    ViewData["Title"] = "AdayDegerlendirme";
+}
+
+
+@model AdayInterviewModelView
+
+
+<div class="bg-white p-2 rounded shadow">
+
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a href="#" class="flex-sm-fill text-sm-center nav-link active"><b><i class="fa fa-plus"></i></b> Aday Değerlendirme </a>
+
+    </nav>
+
+    <div class="" style="width:100%;  margin:0 auto; max-width: 1000px;">
+
+        <h4 class="my-2"><b> Aday Değerlendirme Formu:</b></h4>
+        <hr />
+        <br />
+        <div id="success_result"></div>
+
+        <form method="post" id="repeater_form">
+            <input type="hidden" name="mulakId" value="@Model.Interview.Id" />
+
+            <input type="hidden" name="userId" value="@ViewBag.UserId" />
+            @{
+                var aday1 = Model.AdayListVM.SingleOrDefault(x => x.Id == @Model.Interview.AdayId);
+                var Poz = Model.PozisyonListVM.SingleOrDefault(x => x.Id == aday1.PozisyonId);
+            }
+
+            <input type="hidden" name="AdaySecmeId" value="@Model.Interview.AdayId" />
+
+
+            <div class="form-group" id="pozAd">
+                <div class="row">
+
+                    <div class="col-lg-6 col-12 mb-lg-0 mb-2">
+                        <p> <b>Aday Adı Soyadı - CV : </b>	&nbsp;  @aday1.NameSurname &nbsp; &nbsp;  <a href="@aday1.CV" target="_blank">Aday CV'si</a></p>
+                    </div>
+                    <div class="col-lg-6 col-12 mb-lg-0 mb-2">
+                        <p> <b>Mülakat Tarihi: </b>	&nbsp;  @Model.Interview.interviewDate </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-12 mb-lg-0 mb-2">
+                        <p> <b>Pozisyon Adı : </b>	&nbsp; @Poz.Name </p>
+                    </div>
+                    <div class="col-lg-6 col-12 mb-lg-0 mb-2">
+                        <p>
+                            <b>Katlımcı Adı : </b>	&nbsp;
+                            @foreach (var userName in Model.UserList.Where(x => x.UserName == @User.Identity.Name))
+                            {
+                                @userName.NameSurname
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <br />
+
+            @foreach (var userinter in Model.InterviewUserListVM.Where(x => x.interviewId == Model.Interview.Id && x.UserId == ViewBag.UserId))
+            {
+                if (userinter.IsTeknik == "1")
+                {
+                    <div class="row">
+                        @foreach (var item in Model.NitelikListVM.Where(x => x.PozisyonId == @Poz.Id))
+                        {
+                            <div id="nitelikler" class="col-lg-6 col-6 mb-lg-0 mb-2">
+                                <label>Nitelik Adı : </label>
+
+                                <input required data-skip-name="true" data-name="nitelikAdi" value="@item.Name" type="text" class="form-control" disabled>
+                            </div>
+                            <div class="col-lg-2 col-6 mb-lg-0 mb-2">
+                                <label>   ağırlığı: </label>
+                                <input name="agirlik" value="@item.Score" disabled type="number" class="form-control" min="1">
+                            </div>
+                            <div class="col-lg-4 col-12 mb-lg-0 mb-2">
+                                <label>  Verilen Puan (100 Üzerinden):  </label>
+                                <input name="Puan" type="number" class="form-control" required min="1" max="100">
+                            </div>
+                        }
+                    </div>
+                }
+            }
+
+            <div class="form-group mt-2">
+
+                <label class="form-label">Ek Açıklama</label>
+                <textarea name="aciklama" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div id="msg" class="alert alert-success p-2 mt-2" style="display:none;" role="alert"></div>
+            <br />
+             <div id="msg2" class="alert alert-danger alert-dismissible fade show p-2" role="alert" style="display:none;">
+
+                <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group" align="center">
+                <br /><br />
+                <input type="submit" name="insert" class="btn btn-success" value="Kayıdet" />
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<script>
+
+    $(document).ready(function(){
+
+
+        // Start Submit Form
+        $('#repeater_form').on('submit', function(event){
+           event.preventDefault();
+
+
+           var mulakId;
+
+           var PuanList=[];
+           var AdaySecmeId;
+           var aciklama;
+           var userId;
+
+           jQuery.each( $(this).serializeArray(), function( i, field ) {
+
+              if(field.name=="mulakId"){
+                  mulakId=field.value;
+              }
+              if(field.name=="userId"){
+                  userId=field.value;
+              }
+
+              if(field.name=="AdaySecmeId"){
+                  AdaySecmeId=field.value;
+              }
+
+              if(field.name=="aciklama"){
+                  aciklama=field.value;
+              }
+              if(field.name=="Puan"){
+                  console.log(field.value);
+                 PuanList.push(field.value);
+             }
+          });
+          // end jQuery.each -----------
+
+
+
+             var toplam=0;
+             var counter=0;
+             var ortalama=0;
+            for (var j = 0; j < PuanList.length; j++){
+                   counter+=1;
+                   toplam+= parseInt(PuanList[j]);
+                   ortalama=toplam/counter;
+            }
+
+                 var myData= [{ "userId":userId,"mulakId":mulakId,"AdayId": AdaySecmeId,"aciklama":aciklama, "Puan": ortalama }];
+                 
+                   $.ajax({
+
+                      url:"/Mulakatlar/CreateDegerlendirme",
+                      method:"POST",
+                      data:JSON.stringify(myData) ,
+                      contentType: 'application/json;',
+                      dataType: 'json',
+                      success:function(data)
+                      {
+                          if(data=="var"){
+
+                          $("#msg2").empty();
+                          $("#msg2").css("display","block");
+                          $("#msg2").append(" Bu Mülakatı önceden değerlendirdiniz, Bir daha değerlendirme hakkınız yok ! ");
+
+                         }
+                         else if(data=="davet"){
+                              $("#msg2").empty();
+                              $("#msg2").css("display","block");
+                              $("#msg2").append(" Bu Mülakata davet edilmediniz dolaysıyla değerlendirme hakkınız yok ! ");
+                         }
+                         else{
+
+                          $("#msg2").css("display","none");
+                          $("#msg").css("display","block");
+                          $("#msg").append(" Başarı ile Kayıdedildi ")
+
+                          $('#repeater_form')[0].reset();
+                          $('#repeater').createRepeater();
+                          $('#repeater2').createRepeater();
+
+                          setTimeout(function () {window.location.href = "/Home/Index"; }, 1000);   // Time in milliseconds
+
+                         }
+                          
+                       }
+
+
+              });
+              //end Ajax -----------------
+        });
+
+        //    Submit Form  --------------
+
+    });
+    //--------------- End  document (ready)
+</script>
+
+
+

@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/css/SiteCustomer.css">
+
+
+
+@model OzlukUserVM
+
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link active " aria-current="page" href="#"> Çalışanlar Listesi</a>
+        <a class="flex-sm-fill text-sm-center nav-link " aria-current="page" asp-action="Create" asp-controller="Ozluk"><b><i class="fa fa-plus"></i></b> &nbsp; Yeni Özlük Ekle</a>
+    </nav>
+
+    <br />
+
+    <div class="table-responsive">
+        <table id="dtBasicExample" class="table table-striped table-bordered ">
+            <thead>
+                <tr>
+                    <th class="th-sm"> Adı Soyadı</th>
+                    <th class="th-sm">Pozisyon </th>
+                    <th class="th-sm"> Özlük </th>
+                    <th class="th-sm">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.UserListVM.Where(x => x.Status == true && x.IsOzluk==true))
+                {
+                    <tr>
+                        <td>@item.NameSurname</td>
+                        <td>
+                            @foreach (var poz in Model.PozisyonListVM.Where(x => x.Id == item.PozisyonId))
+                            {
+                                <span>@poz.Name</span>
+                            }
+                        </td>
+                        <td><a href="/Ozluk/Detaylar/@item.Id" target="_blank"><i class="fas fa-info-circle"></i>	&nbsp; Özlüğe Git</a></td>
+                
+                        <td><a href="/Ozluk/edit/@item.Id" target="_blank"><i class="far fa-edit"></i>	&nbsp; Düzenle</a></td>
+
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="th-sm"> Adı Soyadı</th>
+                    <th class="th-sm">Pozisyon </th>
+                    <th class="th-sm"> Özlük </th>
+                    <th class="th-sm">İşlem</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+<!-- MDBootstrap Datatables  -->
+@section Scripts
+{
+<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/js/customerDatatable.js"></script>
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,188 @@
+﻿@using NewKaratIk.Extentsions
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-validation.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-wizard.css">
+<!-- END: Page CSS-->
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/select/select2.min.css">
+<!-- END: Vendor CSS-->
+<!-- Vertical Wizard -->
+<style>
+    .select2-selection__arrow {
+        display: none;
+    }
+</style>
+
+@model OzlukUserVM
+
+<div class="bg-white p-2 rounded shadow ">
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link  " aria-current="page" asp-action="Index" asp-controller="Ozluk"> Çalışanlar Listesi</a>
+        <a class="flex-sm-fill text-sm-center nav-link active " aria-current="page" href="#"><b><i class="fa fa-plus"></i></b> &nbsp; Yeni Özlük Ekle</a>
+    </nav>
+
+    <div style="width:100%;  margin:0 auto; max-width: 1000px;">
+
+        <h4 class="my-2"><b> Yeni Çalışan Özlüğünü Oluştur :</b></h4>
+        <!-- Aday Ekle -->
+        <form asp-action="Create" asp-controller="Ozluk" method="post" class="form-group" enctype="multipart/form-data">
+            @if (TempData["message"] != null)
+            {
+                <partial name="_ResultMessage" model="@(TempData.Get<AlertMessage>("message"))" />
+
+            }
+
+            <div class="row">
+                <div class="mb-1 col-md-6">
+                    <label class="form-label" for="vertical-username"> Çalışan Seçiniz :</label>
+                    <select class="select2 form-select" required name="UserId" asp-for="Ozluk.UserId" asp-items="@(new SelectList(Model.UserListVM.Where(x=>x.Status==true && x.IsOzluk==false ),"Id","NameSurname"))">
+                        <option value="" selected>Seç</option>
+                    </select>
+
+                </div>
+
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">TC Numarası</label>
+                    <input type="text" name="Tcno" asp-for="Ozluk.Tcno" required class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Nüfüs Kayıt Örneği</label>
+                    <input type="file" name="NufusKayitOrnegi" asp-for="Ozluk.NufusKayitOrnegi" class="form-control" />
+                </div>
+
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Adli Sicil Kaydı </label>
+                    <input type="file" name="AdliSicil" asp-for="Ozluk.AdliSicil" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Öğrenim Belgesi</label>
+                    <input type="file" name="ogrenimBlegesi" asp-for="Ozluk.ogrenimBlegesi" class="form-control" />
+                </div>
+
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Yerleşim Yeri Belgesi </label>
+                    <input type="file" name="YerlisimYeri" asp-for="Ozluk.YerlisimYeri" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-1 col-md-6">
+
+                    <label class="form-label">Kan Grubu </label>
+
+                    <select class="select2 form-select" name="KanGrubu" asp-for="Ozluk.KanGrubu">
+                        <option value="" selected>Seç</option>
+                        <option>A RH(+)</option>
+                        <option>A RH(-)</option>
+
+                        <option>B RH(+)</option>
+                        <option>B RH(-)</option>
+
+                        <option>AB RH(+)</option>
+                        <option>AB RH(-)</option>
+
+                        <option>O RH(+)</option>
+                        <option>O RH(-)</option>
+                    </select>
+                </div>
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Sağlık Raporu </label>
+                    <input type="file" name="saglikRaporu" asp-for="Ozluk.saglikRaporu" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Nüfüs Cüzdan Fotok.</label>
+                    <input type="file" name="NufusCuzdanFotok" asp-for="Ozluk.NufusCuzdanFotok" class="form-control" />
+                </div>
+
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Kurs/Seminar Belgesi (Varsa) </label>
+                    <input type="file" name="YerlisimYeri" asp-for="Ozluk.YerlisimYeri" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Fotoğraf </label>
+                    <input type="file" name="Fotograf" asp-for="Ozluk.Fotograf" class="form-control" />
+                </div>
+
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Askerlik Tarhis Belgesi</label>
+                    <input type="file" name="AskerlikBelgesi" asp-for="Ozluk.AskerlikBelgesi" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">İşkur Kayıt Belgesi </label>
+                    <input type="file" name="iskurKayit" asp-for="Ozluk.iskurKayit" class="form-control" />
+                </div>
+
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">İş Başvuru Formu</label>
+                    <input type="file" name="AskerlikBelgesi" asp-for="Ozluk.AskerlikBelgesi" class="form-control" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Muvafakatname </label>
+                    <input type="file" name="Muvakatname" asp-for="Ozluk.Muvakatname" class="form-control" />
+                </div>
+
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Maaş Hesap Iban Numarası</label>
+                    <input type="text" name="MaasHesapIbanNo" asp-for="Ozluk.MaasHesapIbanNo" class="form-control" />
+                </div>
+            </div>
+
+            <div align="center">
+                <button type="submit" id="submitBtn" class="btn btn-outline-secondary btn-success"> kaydet &nbsp; <i class="fas fa-save fa-lg"></i></button>
+            </div>
+        </form>
+        <!-- Aday Ekle -->
+
+    </div>
+
+</div>
+<div id="Spinnerloading">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<!-- /Vertical Wizard -->
+@section Scripts{
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<!-- END: Page Vendor JS-->
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+
+}
+<script>
+    $(document).ready(function(){
+
+        $( "#submitBtn" ).click(function() {
+
+          $('#Spinnerloading').css('display', 'block');
+        });
+
+    })
+
+</script>
+
+
+

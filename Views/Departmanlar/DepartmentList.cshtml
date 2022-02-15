@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewData["Title"] = "DepartmentList";
+}
+
+@model UserDepartmentModelView
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link active " aria-current="page" asp-controller="Departmanlar" asp-action="DepartmentList">Tüm Departmanlar Listesi</a>
+        <a class="flex-sm-fill text-sm-center nav-link  " aria-current="page" asp-controller="Departmanlar" asp-action="CreateDepartment">Yeni Departman Ekle</a>
+
+    </nav>
+
+
+    <br />
+
+    <div class="mx-2">
+        @foreach (var item in Model.DepartmentList)
+        {
+            <div  class="@(item.Status==true?"row mb-1":"row mb-1 bg-dark text-white")" >
+                <div class="col border border-primary p-1 px-2">
+                    <b style="font-size:22px;"> @item.Name</b>
+                   
+                    <a onClick="return false;" href="#" class="dep_@item.Id float-end"><i class="fas fa-plus-square fa-2x text-primary"></i> </a>
+                    <a href="/Departmanlar/CreateDepartment/@item.Id" class="px-2 float-end"><i class="far fa-edit fa-2x text-success"></i></a>
+                </div>
+            </div>
+
+            <div class="detaylar_@item.Id table-responsive my-2" style="display:none;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Pozisyon Adı</th>
+                            <th scope="col">Pozisyon Sayısı</th>
+                            <th scope="col">Seviye</th>
+                            <th scope="col"> Pozisyon Yöneticisi</th>
+                            <th scope="col">Pozisyondaki Kişiler</th>
+                            <th scope="col">Durumu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var poz in Model.PozisyonListVM.Where(x => x.DepartmentId == item.Id && x.Status == true))
+                        {
+                            int userCount = Model.UserList.Where(x => x.PozisyonId == poz.Id).Count();
+
+                            <tr class="@(userCount!=0?"":"bg-success text-white")">
+                                <th scope="row">
+                                    @poz.Name
+                                </th>
+                                <td>
+                                    @poz.pozSayisi
+                                </td>
+                                <td>
+
+                                    @{
+                                        switch (poz.Seviye)
+                                        {
+                                            case "0":
+                                                <span>Director</span>
+                                                break;
+                                            case "1":
+                                                <span>Manager</span>
+                                                break;
+                                            case "2":
+                                                <span>Executive</span>
+                                                break;
+                                            case "3":
+                                                <span>Expert</span>
+                                                break;
+                                            default:
+                                                <span>Assistent</span>
+                                                break;
+                                        };
+                                    }
+                                </td>
+                                <td>
+                                    @foreach (var user in Model.UserList.Where(x => x.Id == poz.ManagerId))
+                                    {
+                                        @user.NameSurname
+
+                                    }
+                                </td>
+                                <td>
+                                    @{
+                                        if (userCount == 0)
+                                        {
+                                            <span>Boş</span>
+
+                                        }
+                                        else
+                                        {
+                                            @foreach (var user in Model.UserList.Where(x => x.PozisyonId == poz.Id))
+                                            {
+                                                <p> @user.NameSurname </p>
+                                            }
+                                        }
+                                    }
+
+                                </td>
+                                <td>
+                                    @if (poz.Status == true)
+                                    {
+                                        <span class="text-success">Aktif</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">Pasif</span>
+                                    }
+                                </td>
+                            </tr>
+
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+            <script>
+                $(document).ready(function () {
+                     $(".dep_@item.Id").click(function () {
+                           $(".detaylar_@item.Id").toggle();
+                           $(this).find('i').toggleClass('fas fa-plus fas fa-minus');
+                      });
+                });
+            </script>
+        }
+    </div>
+
+</div>
+
+

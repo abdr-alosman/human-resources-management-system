@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "MulakatDetaylari";
+}
+
+
+@model AdayInterviewModelView
+
+<div class="bg-white p-2 container">
+    @foreach (var item in Model.InterviewListVM.Where(x=>x.Id==Model.Interview.Id))
+    {   var aday = Model.AdayListVM.Where(x => x.Id == item.AdayId).SingleOrDefault().NameSurname;
+        <div class="row">
+            <div class="col-6">
+                <h4>Aday Adı : @aday</h4>
+            </div>
+             <div class="col-6">
+                   <h4>Mülakat Tarihi : @item.interviewDate</h4>
+            </div>
+        </div>
+
+        
+      <hr />
+
+        @foreach (var item2 in Model.MulakatDegerlendirmeListVM.Where(x => x.mulakId == item.Id))
+        {
+            var user = Model.UserList.Where(x => x.Id == item2.userId).SingleOrDefault().NameSurname;
+           
+            <h4> @user</h4>
+            <p> <b>Açıklama : </b> @item2.aciklama</p>
+            <p><b>Verilen Puan : </b>   @(item2.Puan==0?"Teknik Nitelikleri Değerlendirme Yektisi Yok":item2.Puan)</p>
+            <hr />
+
+        }
+
+    }
+</div>
+
+
+

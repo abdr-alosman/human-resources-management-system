@@ -1,0 +1,82 @@
+﻿@using static NewKaratIk.Models.CustomModels.Aday
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+@model AdayInterviewModelView
+<div class="bg-white p-2 rounded shadow ">
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link  " aria-current="page" asp-controller="Adaylar" asp-action="Index">Tüm Adaylar Listesi</a>
+        <a class="flex-sm-fill text-sm-center nav-link " asp-action="OlumluAdaylar" asp-controller="Adaylar"><i class="fas fa-list"></i> &nbsp; Olumlu Adaylar Listesi</a>
+        <a asp-action="Create" asp-controller="Adaylar" class="flex-sm-fill text-sm-center nav-link "><b><i class="fa fa-plus"></i></b>  &nbsp; Yeni Aday Ekle </a>
+        <a href="#" class="flex-sm-fill text-sm-center nav-link active"><b><i class="fa fa-plus"></i></b>  &nbsp;  Aday Güncelleme </a>
+
+    </nav>
+
+    <div style="width:100%;  margin:0 auto; max-width: 1000px;">
+
+        <h4 class="my-2"><b>Aday Bilgilerini Güncelleme :</b></h4>
+        <!-- Aday Ekle -->
+        <form asp-action="Edit" method="post" asp-controller="Adaylar" enctype="multipart/form-data">
+            <input type="hidden" name="Id" asp-for="Aday.Id" />
+            <input type="hidden" name="CV" asp-for="Aday.CV" />
+
+            <div class="row">
+                <div class="mb-1 col-md-6">
+                    <label class="form-label" for="vertical-username"> Aday Adı Soyadı :</label>
+                    <input type="text" name="NameSurname" asp-for="Aday.NameSurname" class="form-control" placeholder="Ad Soyad" required />
+                </div>
+
+                <div class="mb-1 col-md-6">
+                    <label class="form-label" for="vertical-email">Email</label>
+                    <input type="email" name="Email" asp-for="Aday.Email" required class="form-control" placeholder="john.doe@email.com" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Telefon Numarası :</label>
+                    <input type="tel" name="Tel" asp-for="Aday.Tel" placeholder="05XXXXXXXXX" class="form-control" required />
+                </div>
+                <div class="mb-1 -toggle col-md-6">
+                    <label class="form-label">Aday CV</label>
+
+                    <input type="file" name="CV" asp-for="Aday.CV" class="form-control" />
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-lg-6 col-12   ">
+                    <label class="form-label"> Aday Durumu</label>
+                    <select id="someIdForTheEndPoint" name="Status" asp-for="Aday.Status" class="form-control" asp-items="Html.GetEnumSelectList<StatusEnum>()">
+                    </select>
+                </div>
+
+                <div class=" col-lg-6 col-12  ">
+
+                    <label class="form-label" for="country">Pozsiyon Seçin</label>
+                    <select id="pozisyon" name="PozisyonId" class="select2 form-select" asp-for="Aday.PozisyonId" asp-items="@(new SelectList(Model.PozisyonListVM.Where(x=>x.Status==true),"Id","Name"))">
+                    </select>
+                </div>
+
+            </div>
+            <div class="row  mt-2 mb-2">
+                <div class=" col mt-1">
+
+                    <input type="checkbox" name="KvkkOnayi" class="form-check-input" asp-for="Aday.KvkkOnayi">
+                    <label class="form-check-label"> &nbsp; KVKK Onayı var mı ? ( varsa işaretle ) </label>
+                </div>
+            </div>
+
+
+
+            <div align="center">
+                <button type="submit" class="btn btn-outline-secondary btn-success"> kaydet &nbsp; <i class="fas fa-save fa-lg"></i></button>
+            </div>
+        </form>
+        <!-- Aday Ekle -->
+
+    </div>
+
+</div>
+

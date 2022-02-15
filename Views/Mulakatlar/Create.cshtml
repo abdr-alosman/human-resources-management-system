@@ -1,0 +1,300 @@
+﻿@using static NewKaratIk.Models.CustomModels.InterviewUser
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-validation.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-wizard.css">
+<!-- END: Page CSS-->
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/select/select2.min.css">
+<!-- END: Vendor CSS-->
+<!-- Vertical Wizard -->
+<style>
+    .select2-selection__arrow {
+        display: none;
+    }
+</style>
+@model AdayInterviewModelView
+
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link  " aria-current="page" asp-controller="Mulakatlar" asp-action="Index">Tüm Mülakatlar Listesi</a>
+        <a asp-action="Create" asp-controller="Mulakatlar" class="flex-sm-fill text-sm-center nav-link active"><b><i class="fa fa-plus"></i></b>  &nbsp; Yeni Mülakat Ekle </a>
+    </nav>
+    <div style="width:100%;  margin:0 auto; max-width: 1000px;">
+
+        <h4 class="my-2"><b> Yeni Mülakat Oluştur :</b></h4>
+        <form method="post" id="repeater_form">
+            <div class="row">
+
+                <div class="mb-1 col-md-6">
+                    <label class="form-label">Mülakat Tarihi ve Saati</label>
+                    <input class="form-control" name="inerviewDate" type="datetime-local" required />
+                </div>
+
+                <div class="mb-1 col-md-6">
+                    <label class="form-label" for="country">Aday Seçin</label>
+                    <select name="adaylar" id="adaylar" required class="select2 form-select" value="@Model.Aday.Id" asp-items="@(new SelectList(Model.AdayListVM,"Id","NameSurname"))">
+                        <option value="" selected>Aday Seç</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div id="repeater2">
+                    <div class="repeater-heading mt-2">
+                        <label>Mülakata Katılanlar : </label>
+                        <div align="right"> <button id="employeeEkle" type="button" class="btn btn-primary repeater-add-btn">Katılımcı Ekle</button></div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="items" data-group="programming_languages">
+                        <div class="item-content">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-5" id="katilan">
+                                        <label>Katılımcı Seç : </label>
+                                        <select data-skip-name="true" data-name="katilanlar" required class="select2 form-select" value="@Model.User.Id" asp-items="@(new SelectList(Model.UserList.Where(x=>x.Status==true),"Id","NameSurname"))">
+                                            <option value="" selected>Seç</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <label class="form-check-label"> Teknik Nitelikleri Değerlendirecek mi </label><br>
+
+                                        <select data-skip-name="true" required data-name="IsTeknik" class="select2 form-control" asp-items="Html.GetEnumSelectList<IsTeknikEnum>()">
+                                            <option value="" selected>Seç</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3" style="margin-top:24px;" align="center">
+                                        <button id="remove-btn" onclick="$(this).parents('.items').remove()" class="btn btn-danger">Sil &nbsp; <i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <p>Email Bilgileri</p>
+            </div>
+            <div class="row">
+                <div class="alert alert-primary p-1" role="alert">
+                    Mülakat Şirkette yapılacaksa bu linki Mülakat yeri alanına yapıştırabilirsiniz. <span class="text-dark">https://goo.gl/maps/JGCCxUZrzj3K39Rk9 </span>
+                </div>
+
+                <div class="mb-1 col-md-12">
+                    <label class="form-label">Mülakat Yeri </label>
+                    <input class="form-control" name="yer" type="text" required />
+
+                </div>
+
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="form-label">Ilave Not </label>
+                    <textarea name="ilaveNot" class="form-control"></textarea>
+                </div>
+            </div>
+
+            <div id="msg" class="alert alert-success alert-dismissible fade show p-2" role="alert" style="display:none;">
+
+                <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div id="msg2" class="alert alert-danger alert-dismissible fade show p-2" role="alert" style="display:none;">
+
+                <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div align="center">
+                <button type="submit" class="btn btn-outline-secondary btn-success"> kaydet & Mail Gönder &nbsp; <i class="fas fa-save fa-lg"></i></button>
+            </div>
+        </form>
+
+    </div>
+    <!-- Mülakat Ekle -->
+    <!-- Mülakat Ekle -->
+
+</div>
+
+<div id="modal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title text-white">Uyarı !</h5>
+                <a class="fa fa-times" onclick="hidModal()" data-bs-dismiss="modal" aria-label="Close"></a>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="hidModal()" class="btn btn-danger" data-bs-dismiss="modal">Kapat</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Spinnerloading">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<!-- /Vertical Wizard -->
+@section Scripts{
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<!-- END: Page Vendor JS-->
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+
+}
+
+<script>
+
+     $(document).ready(function(){
+
+     $('#repeater2').createRepeater();
+
+     // Start Submit Form
+     $('#repeater_form').on('submit', function(event){
+     event.preventDefault();
+
+     var MulakatDate;
+     var adayId;
+     var PozId;
+     var katilanlarList=[];
+     var subject;
+     var yer;
+     var ilaveNot;
+
+
+     jQuery.each( $(this).serializeArray(), function( i, field ) {
+
+     var katilanlarobj={};
+     if(field.name=="yer"){
+        yer=field.value;
+     }
+
+     if(field.name=="ilaveNot"){
+        ilaveNot=field.value;
+     }
+
+     if(field.name=="inerviewDate"){
+        MulakatDate=field.value;
+     }
+
+
+     if(field.name=="adaylar"){
+          adayId=field.value;
+     }
+     if(field.name=="pozisyonlar"){
+          PozId=field.value;
+     }
+
+     if(field.name=="katilanlar"){
+
+      katilanlarobj.UserId=field.value;
+      katilanlarList.push(katilanlarobj);
+     }
+      if(field.name=="IsTeknik"){
+           katilanlarobj.IsTeknik=field.value;
+           katilanlarList.push(katilanlarobj);
+     }
+
+     });
+     // end jQuery.each -----------
+     var katilanlar =[];
+              var a=true;
+              for (var j = 0; j < katilanlarList.length; j++){
+                       if(a==true){
+                       var mergskills={...katilanlarList[j],...katilanlarList[j+1]}
+                       katilanlar.push(mergskills);
+                       }
+                       a=!a;
+                }
+
+      // çalışan tekrarı
+               var tekrar=false;
+               for (var j = 0; j < katilanlar.length; j++){
+
+
+                      for (var i = j+1; i < katilanlar.length; i++){
+                         if(katilanlar[j].UserId==katilanlar[i].UserId){
+                             tekrar=true;
+                             break;
+                         }
+                      }
+               }
+    // çalışan tekrarı
+     var x = document.getElementById("modal");
+     if(tekrar==true){
+
+          x.style.display = "block";
+          $(".modal-body>p").append(" aynı Çalışanı Birden Fazla ekleyemezsiniz !");
+     }
+     else{
+           $('#Spinnerloading').css('display', 'block');
+
+     var myData= [{ "Subject":subject,"ilaveNot":ilaveNot,"Yer":yer,"interviewDate":MulakatDate,"InterviewUsers":katilanlar ,"AdayId":adayId,"PozId":PozId }];
+     console.log(myData);
+
+     $.ajax({
+
+         url:"/Mulakatlar/CreateMulakat",
+         method:"POST",
+         data:JSON.stringify(myData) ,
+         contentType: 'application/json;',
+         dataType: 'json',
+         success:function(data)
+         {
+           if(data=="empty"){
+                 $('#Spinnerloading').css('display', 'none');
+                          $("#msg").css("display","none");
+                          $("#msg2").empty();
+                          $("#msg2").css("display","block");
+                          $("#msg2").append(" Mülakat Eklenemedi ! En Az Bir Katılımcı Eklemeniz Lazım ! ");
+
+
+             }else{
+                   $('#Spinnerloading').css('display', 'none');
+
+                     $("#msg2").css("display","none");
+                     $("#msg").css("display","block");
+                     $("#msg").append(" Mülakat Başarı ile Kaydedilmiştir ")
+
+                     $('#repeater_form')[0].reset();
+                     $('#repeater').createRepeater();
+                     $('#repeater2').createRepeater();
+                     setTimeout(function(){ location.reload(); }, 1000);
+             }
+
+         }
+     });
+     //end Ajax -----------------
+     }
+
+
+
+     });
+     // End0
+     //    Submit Form  --------------
+
+     });
+     //--------------- End  document (ready)
+</script>
+
+
+

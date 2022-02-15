@@ -1,0 +1,388 @@
+﻿
+@{
+    ViewData["Title"] = "OlumluAdaylar";
+}
+
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<style>
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_asc_disabled:after,
+    table.dataTable thead .sorting_asc_disabled:before,
+    table.dataTable thead .sorting_desc:after,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_desc_disabled:after,
+    table.dataTable thead .sorting_desc_disabled:before {
+        bottom: .5em;
+    }
+
+</style>
+
+@model AdayInterviewModelView
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link  " aria-current="page" asp-controller="Adaylar" asp-action="Index">Tüm Adaylar Listesi</a>
+        <a class="flex-sm-fill text-sm-center nav-link  active" asp-action="OlumluAdaylar" asp-controller="Adaylar"><i class="fas fa-list"></i> &nbsp; Olumlu Adaylar Listesi</a>
+        <a asp-action="Create" asp-controller="Adaylar" class="flex-sm-fill text-sm-center nav-link "><b><i class="fa fa-plus"></i></b>  &nbsp; Yeni Aday Ekle </a>
+    </nav>
+
+    @if ((string)TempData["sil"] == "silindi")
+    {
+        <div class="alert alert-success alert-dismissible fade show p-2" role="alert">
+            <strong>Aday Başarı ile silinmiştir.</strong>
+            <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if ((string)TempData["success"] == "hi")
+    {
+        <div class="alert alert-success alert-dismissible fade show p-2" role="alert">
+            <strong>Email Başarı ile gönderilmiştir.</strong>
+            <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <div class="table-responsive">
+        <table id="dtBasicExample" class="table table-striped table-bordered ">
+            <thead>
+                <tr>
+                    <th class="th-sm">Detaylar</th>
+                    <th class="th-sm">
+                        Ad Soyad
+                    </th>
+
+                    <th class="th-sm">CV</th>
+                    <th class="th-sm">Durumu</th>
+
+                    <th> Onayı Iste</th>
+                    <th class="th-sm">Teklif Gönderme</th>
+                    <th>Evrak Listesi </th>
+                    <th>İmzalı Teklif </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AdayListVM.Where(x => x.Status != "1" && x.Status != "2" && x.Status != "0" && x.Status != "5"))
+                {
+                    <tr>
+                        <td>
+                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detaylar_@item.Id"><i class="fas fa-plus"></i></a>
+
+                            <!--detaylar_ Modal -->
+                        <div class="modal fade" id="detaylar_@item.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-dark">
+                                            <h5 class="modal-title text-white" id="exampleModalLabel">Aday Bilgileri</h5>
+
+                                            <a class="fa fa-times" onclick="hidModal()" data-bs-dismiss="modal" aria-label="Close"></a>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>
+                                                <b>Ad Soyad : </b> @item.NameSurname <br />
+                                                <b>Email : </b>@item.Email <br />
+                                                <b> Telefon Numarası : </b>@item.Tel <br />
+                                                <b>KVKK Onayı : </b>
+                                                @if (@item.KvkkOnayi == true)
+                                                {
+                                                    <span class="text-success">Var</span>
+                                                }
+                                                else
+                                                {
+
+                                                    <a class="text-danger" data-bs-toggle="modal" data-bs-target="#kvkkModal_@item.Id">Onay Maili Gönder</a>
+
+                                                }
+
+                                            </p>
+
+                                            <hr />
+                                            <p>
+                                                <b>Mülakatlar :</b> <br />
+                                                @foreach (var mulakat in Model.InterviewListVM.Where(x => x.AdayId == item.Id))
+                                                {
+                                                    <span>@mulakat.interviewDate - <a href="/Mulakatlar/MulakatDetaylari/@mulakat.Id" target="_blank">Mülakat Sonucu</a> </span> <br />
+
+                                                }
+
+                                            </p>
+                                            <hr />
+                                            <p>
+                                                <b>Onaylanma Durumu :</b> <br />
+                                                @foreach (var onay in Model.AdayOnaylamaListVM.Where(x => x.AdayId == item.Id))
+                                                {
+                                                    @foreach (var user in Model.UserList.Where(x => x.Id == onay.UserId))
+                                                    {
+                                                        <span class="text-primary">
+                                                            @user.NameSurname :
+                                                            @if (onay.Onay == "1")
+                                                            {
+                                                                <strong class="text-success">Onaylandı</strong>
+                                                            }
+                                                            else if (onay.Onay == "2")
+                                                            {
+                                                                <strong class="text-warning">Beklemede</strong>
+                                                            }
+                                                            else if (onay.Onay == "0")
+                                                            {
+                                                                <strong class="text-danger">Onaylanmadı</strong>
+
+                                                            }
+                                                        </span>
+                                                        <br />
+                                                        <span> <b>Açıklama : </b> @onay.aciklama</span>
+                                                        <br />
+
+                                                        <br />
+
+                                                    }
+                                                }
+
+                                            </p>
+                                            <hr />
+                                            <p>
+                                                Gönderilen Teklif :
+                                                @{
+                                                    var AdayTeklifi = Model.TeklifFormListVM.Where(x => x.AdayId == item.Id);
+                                                    @if (AdayTeklifi.Count() == 0)
+                                                    {
+                                                        <span>Teklif Bulunamadı</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        foreach (var teklif in AdayTeklifi)
+                                                        {
+
+                                                            <span><a href="@teklif.TeklifFile" target="_blank">Teklif Dosyası</a></span>
+
+                                                            <br />
+                                                            <span>
+                                                                Teklif Durumu :
+                                                                @if (@teklif.Status == "2")
+                                                                {
+                                                                    <strong class="text-warning">Beklemede</strong>
+                                                                }
+                                                                else if (teklif.Status == "1")
+                                                                {
+
+                                                                    <strong class="text-success">Teklif Kabul edildi</strong>
+
+                                                                }
+                                                                else if (teklif.Status == "0")
+                                                                {
+                                                                    <strong class="text-danger">Teklif Rededildi</strong>
+                                                                }
+                                                            </span>
+
+                                                        }
+                                                    }
+                                                }
+
+                                            </p>
+                                            <hr />
+                                            <p>
+                                                <b>İşe giriş evrak listesi : </b>
+                                                @if (item.Status == "8")
+                                                {
+
+                                                    <strong class="text-success">gönderildi</strong>
+                                                }
+                                                else
+                                                {
+                                                    <strong class="text-danger">gönderilmedi</strong>
+                                                }
+
+                                            </p>
+
+
+
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- detaylar_ Modal -->
+                            <!--kvkk onay Modal -->
+                        <div class="modal fade" id="kvkkModal_@item.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-warning">
+                                            <h5 class="modal-title text-white" id="exampleModalLabel">Uyarı !</h5>
+
+                                            <a class="fa fa-times" onclick="hidModal()" data-bs-dismiss="modal" aria-label="Close"></a>
+
+                                        </div>
+                                        <div class="modal-body">
+                                            Adaya KVKK Onay Maili Gönderilecek onaylıyor musunuz
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır</button>
+                                            <a href="/Adaylar/KvkkOnay/@item.Id" class="btn btn-success">Evet</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--kvkk onay Modal -->
+
+
+                    </td>
+                        <td>@item.NameSurname</td>
+
+                        <td><a href="@item.CV" target="__blank"><i class="fas fa-file-pdf fa-3x"></i></a></td>
+                        <td>
+                            @{
+
+                                switch (item.Status)
+                                {
+                                    case "0":
+                                        <span class="text-danger"> Olumsuz </span>
+                                        break;
+                                    case "1":
+                                        <span class="text-primary"> Mülakat Yapılcak </span>
+                                        break;
+                                    case "2":
+                                        <span class="text-primary"> Mülakat yapıldı </span>
+                                        break;
+                                    case "3":
+                                        <span class="text-success"> Olumlu </span>
+                                        break;
+                                    case "4":
+                                        <span class="text-warning"> Onay Bekliyor </span>
+                                        break;
+                                    case "5":
+                                        <span class="text-warning"> Değerlendirmede </span>
+                                        break;
+                                    case "6":
+                                        <span class="text-danger"> Onaylanmadı </span>
+                                        break;
+                                    case "7":
+                                        <span class="text-success"> Teklif Gönderildi </span>
+                                        break;
+                                    case "9":
+                                        <span class="text-success"> Teklif Kabul Edildi </span>
+                                        break;
+                                    case "10":
+                                        <span class="text-danger"> Teklif Red Edildi </span>
+                                        break;
+                                    case "8":
+                                        <span class="text-success"> Evrak Listesi Gönderildi </span>
+                                        break;
+                                    case "11":
+                                        <span class="text-success"> Onaylandı </span>
+                                        break;
+                                    default:
+                                        // code block
+                                        break;
+                                }
+                            }
+                        </td>
+
+
+
+                        <td>
+                            <a href="/Adaylar/OnayIste/@item.Id" class="btn btn-primary">Onaylama</a>
+                        </td>
+
+                        <td align="center">
+
+                            <a href="/Adaylar/TeklifFormu/@item.Id" class="btn btn-success"><i class="fas fa-envelope-open-text"></i></a>
+                        </td>
+                        <td align="center">
+                            @if (item.Status == "8")
+                            {
+                                <a href="#" class="btn btn-secondary"><i class="fas fa-file-alt"></i></a>
+
+                            }
+                            else
+                            {
+                                <a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal_@item.Id"><i class="fas fa-file-alt"></i></a>
+
+                                <!--evrak list Modal -->
+                                <div class="modal fade" id="exampleModal_@item.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-warning">
+                                                <h5 class="modal-title text-white" id="exampleModalLabel">Uyarı !</h5>
+
+                                                <a class="fa fa-times" onclick="hidModal()" data-bs-dismiss="modal" aria-label="Close"></a>
+
+                                            </div>
+                                            <div class="modal-body">
+                                                @item.NameSurname'a Evrak Listesini göndermek istediğinizden emin misiniz ? (Adaya Mail Gönderilecek)
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır</button>
+                                                <a href="/Adaylar/EvrakListesiGonder/@item.Id" class="btn btn-success">Evet</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--evrak list Modal -->
+                            }
+
+                        </td>
+                        <td>
+                            @{
+                                var tekliflar = Model.TeklifFormListVM.Where(x => x.AdayId == item.Id);
+                                if (tekliflar.Count() == 0)
+                                {
+                                    <span>Teklif Bulunamadı</span>
+                                }
+                                else
+                                {
+                                    foreach (var item6 in tekliflar)
+                                    {
+                                        <a href="@item6.imzaliTeklifFile" target="__blank"><i class="fas fa-file-pdf fa-3x"></i></a>
+
+                                    }
+
+                                }
+
+                            }
+
+                        </td>
+
+
+                    </tr>
+
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="th-sm">Detaylar</th>
+                    <th class="th-sm">
+                        Ad Soyad
+                    </th>
+
+                    <th class="th-sm">CV</th>
+                    <th class="th-sm">Durumu</th>
+
+                    <th>Onay Iste</th>
+                    <th class="th-sm">Teklif Gönderme</th>
+                    <th>Evrak Listesi</th>
+                    <th>İmzalı Teklif </th>
+
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+<!-- MDBootstrap Datatables  -->
+@section Scripts
+{
+<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/js/customerDatatable.js"></script>
+}
+
+
+
+
+
+

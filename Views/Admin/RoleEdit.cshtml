@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "RoleEdit";
+}
+
+
+@model RoleDetails
+
+<div class="bg-white p-2 shadow rounded">
+
+    <h2>Role Düzenle : </h2>
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="RoleEdit" asp-controller="Admin">
+                <input type="hidden" name="RoleId" value="@Model.Role.Id" />
+                <input type="hidden" name="RoleName" value="@Model.Role.Name" />
+
+                <h6 class="bg-primary text-white p-1">Add to @Model.Role.Name</h6>
+                <table class="table table-bordered bg-light">
+                    @if (Model.NonMembers.Count() == 0)
+                    {
+                        <tr>
+                            <td colspan="2">
+                                Bütün Kullanıcılar Role Ait Değil
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var user in Model.NonMembers)
+                        {
+                            <tr>
+                                <td>@user.UserName</td>
+                                <td>
+                                    <input type="checkbox" name="IdsToAdd" value="@user.Id" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+                <hr />
+
+                <h6 class="bg-primary text-white p-1"> Remove From @Model.Role.Name</h6>
+                <table class="table table-bordered bg-light ">
+                    @if (Model.Members.Count() == 0)
+                    {
+                        <tr>
+                            <td colspan="2">
+                                Role Ait Kullanıcı yok
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var user in Model.Members)
+                        {
+                            <tr>
+                                <td>@user.UserName</td>
+                                <td>
+                                    <input type="checkbox" name="IdsToDelete" value="@user.Id" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+                <button type="submit" class="btn btn-success">Kaydet</button>
+            </form>
+
+        </div>
+
+    </div>
+
+
+</div>

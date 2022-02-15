@@ -1,0 +1,184 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = NewKaratIk
+build_property.RootNamespace = NewKaratIk
+build_property.ProjectDir = C:\Users\AbdulrahmanAlothman\Desktop\Yedek\NewKaratIk\NewKaratIk\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\AbdulrahmanAlothman\Desktop\Yedek\NewKaratIk\NewKaratIk
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Areas/Identity/Pages/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/AdayGenel/AdayDegerlendirme.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRheUdlbmVsXEFkYXlEZWdlcmxlbmRpcm1lLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/AdayGenel/AdayOnaylama.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRheUdlbmVsXEFkYXlPbmF5bGFtYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/AdayGenel/Mulakatlarim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRheUdlbmVsXE11bGFrYXRsYXJpbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/AdayGenel/Teklifionaylamak.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRheUdlbmVsXFRla2xpZmlvbmF5bGFtYWsuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Adaylar/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRheWxhclxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Adaylar/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRheWxhclxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Adaylar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRheWxhclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Adaylar/OlumluAdaylar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRheWxhclxPbHVtbHVBZGF5bGFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Adaylar/OnayIste.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRheWxhclxPbmF5SXN0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Adaylar/TeklifFormu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRheWxhclxUZWtsaWZGb3JtdS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Admin/CreateRole.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlUm9sZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Admin/RoleEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZUVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Admin/RoleList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUm9sZUxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Admin/UserEdit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlckVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Admin/UserList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlckxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Departmanlar/CreateDepartment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVwYXJ0bWFubGFyXENyZWF0ZURlcGFydG1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Departmanlar/DepartmentList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGVwYXJ0bWFubGFyXERlcGFydG1lbnRMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Mulakatlar/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXVsYWthdGxhclxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Mulakatlar/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXVsYWthdGxhclxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Mulakatlar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXVsYWthdGxhclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Mulakatlar/MulakatDetaylari.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXVsYWthdGxhclxNdWxha2F0RGV0YXlsYXJpLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Ozluk/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3psdWtcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Ozluk/Detaylar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3psdWtcRGV0YXlsYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Ozluk/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3psdWtcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Ozluk/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3psdWtcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Pozisyon/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG96aXN5b25cQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Pozisyon/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG96aXN5b25cRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Pozisyon/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG96aXN5b25cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Recruitment/ChangePosition.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjcnVpdG1lbnRcQ2hhbmdlUG9zaXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Recruitment/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjcnVpdG1lbnRcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Recruitment/IseAlim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjcnVpdG1lbnRcSXNlQWxpbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Recruitment/OpenPozitions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjcnVpdG1lbnRcT3BlblBveml0aW9ucy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Shared/_LoginPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Shared/_ResultMessage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9SZXN1bHRNZXNzYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/AbdulrahmanAlothman/Desktop/Yedek/NewKaratIk/NewKaratIk/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-h0l8vx6677

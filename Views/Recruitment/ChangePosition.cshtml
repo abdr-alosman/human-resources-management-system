@@ -1,0 +1,140 @@
+﻿
+@{
+    ViewData["Title"] = "ChangePosition";
+}
+
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/css/SiteCustomer.css">
+
+
+
+@model AdayInterviewModelView
+
+<div class="bg-white p-2 rounded shadow ">
+
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link active " aria-current="page" href="#">Tüm Çalışanlar Listesi</a>
+    </nav>
+
+    @if ((string)TempData["success"] == "hi")
+    {
+        <div class="alert alert-success alert-dismissible fade show p-2" role="alert">
+            <strong>Pozisyon Bilgileri Başarıyla Güncellenmiştir.</strong>
+            <button type="button" class="btn-close btn-dark " data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+
+    <br />
+
+    <div class="table-responsive">
+        <table id="dtBasicExample" class="table table-striped table-bordered ">
+            <thead>
+                <tr>
+
+                    <th class="th-sm"> Adı Soyadı</th>
+                    <th class="th-sm">
+                        Departman
+                    </th>
+                    <th class="th-sm">
+                        Yönetici
+                    </th>
+
+                    <th class="th-sm">Pozisyon </th>
+
+                
+
+                    <th class="th-sm">İşlem</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.UserList.Where(x=>x.Status==true))
+                {
+                    <tr>
+                        <td>
+                            @item.NameSurname
+                        </td>
+                        <td>
+                            @foreach (var item2 in Model.DepartmentList.Where(x => x.Id == item.DepartmentId))
+                            {
+                                @item2.Name
+                            }
+                        </td>
+
+                        <td>
+
+                            @foreach (var item3 in Model.PozisyonListVM.Where(x => x.Id == item.PozisyonId))
+                            {
+                                var ManagerName = Model.UserList.Where(a => a.Id == item3.ManagerId).SingleOrDefault().NameSurname;
+                                <span>@ManagerName</span>
+                            }
+                        </td>
+
+                        <td>
+                            @foreach (var item4 in Model.PozisyonListVM.Where(x => x.Id == item.PozisyonId))
+                            {
+
+                                <span>@item4.Name</span>
+                            }
+                        </td>
+                     
+
+                        <td align="center">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-sm dropdown-toggle hide-arrow py-0" data-bs-toggle="dropdown">
+                                    <i data-feather="more-vertical"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="/Recruitment/Edit/@item.Id">
+                                        <i data-feather="edit-2" class="me-50"></i>
+                                        <span>Güncelle</span>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th class="th-sm"> Adı Soyadı</th>
+                    <th class="th-sm">
+                        Departman
+                    </th>
+                    <th class="th-sm">
+                        Yönetici
+                    </th>
+
+                    <th class="th-sm">Pozisyon</th>
+
+             
+
+                    <th class="th-sm">İşlem</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+<!-- MDBootstrap Datatables  -->
+@section Scripts
+{
+<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/js/customerDatatable.js"></script>
+}
+
+
+
+
+
+
+
+

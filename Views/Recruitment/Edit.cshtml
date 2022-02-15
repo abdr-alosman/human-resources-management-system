@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<!-- BEGIN: Page CSS-->
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-validation.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-wizard.css">
+<!-- END: Page CSS-->
+<!-- BEGIN: Vendor CSS-->
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/select/select2.min.css">
+<!-- END: Vendor CSS-->
+<!-- Vertical Wizard -->
+<style>
+    .select2-selection__arrow {
+        display: none;
+    }
+</style>
+
+@model AdayInterviewModelView
+<div class="bg-white p-2 rounded shadow ">
+    <nav class="nav nav-pills flex-column flex-sm-row mb-2 ">
+        <a class="flex-sm-fill text-sm-center nav-link  " aria-current="page" asp-controller="Recruitment" asp-action="ChangePosition">Tüm Çalışanlar Listesi</a>
+        <a href="#" class="flex-sm-fill text-sm-center nav-link active " aria-current="page">Çalışan Bilgilerini Güncelle</a>
+    </nav>
+
+    <div style="width:100%;  margin:0 auto; max-width: 1000px;">
+
+        <h4 class="my-2"><b>@Model.User.NameSurname 'ın Bilgilerini Güncelleme :</b></h4>
+      
+        <form asp-action="Edit" asp-controller="Recruitment" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="User.Id" />
+            <div class="row mb-2">
+              
+                 <div class="mb-1 col">
+                    <label class="form-label" for="country">Pozisyon Seçin</label>
+                    <select id="pozisyon" class="select2 form-select" name="PozisyonId" asp-for="User.PozisyonId" asp-items="@(new SelectList(Model.PozisyonListVM.Where(x=>x.Status==true),"Id","Name"))">
+                    </select>
+
+                </div>
+            </div>
+            <div align="center">
+                <button type="submit" class="btn btn-outline-secondary btn-success"> Güncelle &nbsp; <i class="fas fa-save fa-lg"></i></button>
+            </div>
+        </form>
+    
+
+    </div>
+
+</div>
+
+@section Scripts{
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<!-- END: Page Vendor JS-->
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+
+}
+

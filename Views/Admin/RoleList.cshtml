@@ -1,0 +1,78 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@{
+    ViewData["Title"] = "RoleList";
+}
+
+
+@model IEnumerable<IdentityRole<int>>
+
+
+
+<div class="bg-white p-2 shadow rounded">
+    <h1> Roles List</h1>
+    <hr />
+    <p> <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Admin">Yeni Role Ekle</a></p>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Role Name</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.Id</th>
+                            <td>@item.Name</td>
+                            <td> <a class="btn btn-success" href="/Admin/RoleEdit/@item.Id">Edit</a></td>
+                            <td>
+                               
+                                <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal_@item.Id">
+                                    <i data-feather="trash" class="me-50"></i>
+                                    <span>Sil</span>
+                                </a>
+                                <!-- Remove Modal -->
+                            <div class="modal fade" id="exampleModal_@item.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-warning">
+                                                <h5 class="modal-title text-white" id="exampleModalLabel">Uyarı !</h5>
+
+                                                <a class="fa fa-times" onclick="hidModal()" data-bs-dismiss="modal" aria-label="Close"></a>
+
+                                            </div>
+                                            <div class="modal-body">
+                                                Bu Rol'u Silmek Istediğinizden Emin misiniz ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır</button>
+                                                <a href="/Admin/DeleteRole/@item.Id" class="btn btn-success">Evet</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    }
+                }
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+

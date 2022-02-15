@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewData["Title"] = "UserList";
+}
+
+
+
+@model IEnumerable<User>
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/css/SiteCustomer.css">
+
+
+<div class="bg-white p-2 shadow rounded">
+    <h1> User List</h1>
+    <hr />
+    <p> <a class="btn btn-primary" asp-action="Register" asp-controller="Account">Yeni User Ekle</a></p>
+    <hr />
+    <div class="table-responsive">
+        <table id="dtBasicExample" class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th scope="col">Ad Soyad</th>
+                    <th scope="col">UserName</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Email Confirm</th>
+                    <th>User Status</th>
+                    <th>İşlem</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr class="@(item.EmailConfirmed?"":"bg-warning")">
+                            <th scope="row">@item.NameSurname</th>
+                            <td>@item.UserName</td>
+                            <td>@item.Email</td>
+                            <td>@item.EmailConfirmed</td>
+                            <td align="center">
+                                @if (item.Status==true)
+                                {
+                                   <a href="/Admin/DeleteUser/@item.Id"><i class="fas fa-lock-open text-success"></i></a> 
+                                }else{
+                                    <a href="/Admin/DeleteUser/@item.Id"><i class="fas fa-lock text-danger"></i></a> 
+                                }
+                            </td>
+                            <td>
+                                <a class="btn btn-success" href="/Admin/UserEdit/@item.Id">Edit</a>
+                             
+                   
+                            </td>
+
+                        </tr>
+                    }
+
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            Kullanıcı Bulunamadı
+                        </td>
+
+                    </tr>
+                }
+
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- MDBootstrap Datatables  -->
+@section Scripts
+{
+<script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+<script src="~/js/customerDatatable.js"></script>
+}
+
+
